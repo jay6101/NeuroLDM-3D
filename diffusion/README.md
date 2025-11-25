@@ -38,24 +38,9 @@ Our main architecture implements a 3D Diffusion Transformer with several key inn
 
 #### Core Features
 - **3D Patch Embedding**: Divides 3D latent volumes into patches for transformer processing
-- **Window-Based Attention**: Efficient attention computation within local 3D windows
 - **Conditional Generation**: Label conditioning for HC vs TLE generation
 - **Timestep Embedding**: Sinusoidal embeddings for diffusion timesteps
 
-#### Architecture Components
-```python
-# Key architectural parameters
-patch_size = (4, 4, 4)          # 3D patch dimensions
-hidden_size = 384               # Transformer hidden dimension
-num_heads = 6                   # Multi-head attention heads
-depth = 12                      # Number of transformer layers
-window_size = (4, 4, 4)         # Attention window size
-```
-
-#### Window Attention Mechanism
-- **Efficiency**: Reduces attention complexity from O(N²) to O(N×W) where W is window size
-- **Locality**: Captures local spatial relationships in 3D medical images
-- **Scalability**: Enables processing of larger 3D volumes
 
 ### Diffusion Process
 
