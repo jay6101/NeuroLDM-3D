@@ -13,70 +13,87 @@ The project consists of three main components working together in a pipeline:
 ## Repository Structure
 
 ```
-Diffusion_paper/
+NeuroLDM-3D/
 ├── VAE/                           # Variational Autoencoder implementation
 │   ├── model/                     # VAE model architectures
+│   │   ├── maisi_vae.py          # Main VAE model (MAISI-based)
+│   │   └── lpips3D.py            # 3D LPIPS perceptual loss
 │   ├── train.py                   # VAE training script
-│   ├── infer.py                   # VAE inference
-│   └── dataset.py                 # VAE dataset handling
+│   ├── infer.py                   # VAE inference script
+│   ├── save_latent.py             # Save latent representations
+│   ├── generate_synthetic_samples.py  # Generate samples from VAE
+│   ├── dataset.py                 # VAE dataset handling
+│   ├── utils.py                   # Training utilities
+│   ├── visualize_recon.ipynb      # Reconstruction visualization
+│   └── best_runs/                 # Best model checkpoints
 ├── diffusion/                     # Diffusion model implementation
 │   ├── model/                     # DiT model architectures
+│   │   ├── dit3d_window_attn.py  # 3D DiT with window attention
+│   │   ├── maisi_vae.py          # VAE model for loading
+│   │   └── efficientNetV2.py     # EfficientNet backbone
 │   ├── train.py                   # Diffusion training script
-│   ├── save_synth.py             # Generate synthetic samples
-│   └── dataset.py                # Diffusion dataset handling
+│   ├── save_synth.py              # Generate synthetic samples
+│   ├── dataset.py                 # Diffusion dataset handling
+│   ├── per_slice_fid_ignite.py    # Per-slice FID evaluation
+│   ├── prepare_nii.ipynb          # Data preparation notebook
+│   └── viualize_latent.ipynb      # Latent space visualization
 ├── classifier/                    # Classification and evaluation
 │   ├── model/                     # Classifier architectures
-│   ├── train.py                   # Classifier training
+│   │   └── efficientNetV2.py     # EfficientNetV2 classifier
+│   ├── train.py                   # Classifier training script
+│   ├── run.py                     # Training orchestration
+│   ├── dataset.py                 # Dataset with synthetic data support
+│   ├── utils.py                   # Training utilities
 │   ├── generate_saliency_maps.py  # Saliency map generation
-│   └── SALIENCY_README.md        # Saliency analysis documentation
-├── data_csvs/                     # Dataset splits
-│   ├── train.csv                  # Training data
-│   ├── val.csv                    # Validation data
-│   └── pickle_prep_*.csv         # Preprocessed data indices
-├── synthetic_data_pkls_TLE/       # Generated TLE synthetic samples
-├── synthetic_data_pkls_HC/        # Generated HC synthetic samples
-├── fid_results/                   # FID evaluation results
-├── visualize.ipynb               # Visualization utilities
-└── data_split.ipynb              # Data splitting utilities
+│   ├── run_saliency_generation.py # Saliency generation runner
+│   ├── SALIENCY_README.md         # Saliency analysis documentation
+│   ├── saliency_requirements.txt  # Saliency dependencies
+│   └── new_runs/                  # Training outputs and checkpoints
+├── samples/                       # Sample visualizations (real vs synthetic)
+├── fid_results_ignite/            # FID evaluation results
+├── visualize.ipynb                # Visualization utilities
+└── data_split.ipynb               # Data splitting utilities
 ```
 
-## Getting Started
+**Note**: The actual MRI data and CSV files are typically stored outside this repository in a parent directory (e.g., `Diffusion_paper/data_csvs/`, `Diffusion_paper/synthetic_data_pkls_TLE/`, `Diffusion_paper/synthetic_data_pkls_HC/`). Update paths in training scripts according to your data location.
 
-### Quick Start
+## Pipeline
 
-1. **Data Preparation**: Use `data_split.ipynb` to prepare your dataset splits
-2. **VAE Training**: Train the VAE to learn latent representations
-3. **Diffusion Training**: Train the diffusion model in latent space
-4. **Synthetic Generation**: Generate new samples using trained models
-5. **Evaluation**: Use the classifier and saliency maps for evaluation
+1. **Data Preparation**: `data_split.ipynb` - Create train/val splits
+2. **VAE Training**: `VAE/train.py` - Learn latent representations
+3. **Save Latents**: `VAE/save_latent.py` - Encode dataset to latent space
+4. **Diffusion Training**: `diffusion/train.py` - Train generative model
+5. **Generate Samples**: `diffusion/save_synth.py` - Create synthetic MRIs
+6. **Evaluation**: 
+   - FID: `diffusion/per_slice_fid_ignite.py`
+   - Classification: `classifier/train.py`
+   - Saliency: `classifier/generate_saliency_maps.py`
 
-## Model Details
+## Components
 
-### VAE Component
-- **Architecture**: 3D encoder-decoder with ResNet blocks
-- **Purpose**: Compress 3D MRI volumes into latent space
-- **Training**: Reconstruction loss + KL divergence + optional adversarial loss
+### VAE
+- 3D VAE with ResNet blocks
+- Compresses MRI volumes (112×136×112) to latent space (4×28×34×28)
+- Loss: Reconstruction + KL divergence + LPIPS
 
-### Diffusion Component  
-- **Architecture**: 3D DiT (Diffusion Transformer)
-- **Purpose**: Generate new latent codes that can be decoded into synthetic MRI volumes
-- **Training**: Denoising diffusion probabilistic model (DDPM) in latent space
+### Diffusion Model
+- 3D DiT (Diffusion Transformer) with window attention
+- Generates latent codes conditioned on HC/TLE labels
+- DDPM training in latent space (1000 timesteps)
 
-### Classifier Component
-- **Purpose**: Evaluate quality of synthetic images through classification performance
-- **Features**: HC vs TLE classification with saliency map generation
-- **Evaluation**: Provides interpretability through attention visualization
+### Classifier
+- EfficientNetV2 for HC vs TLE classification
+- Supports real + synthetic data training
+- Saliency map generation via Captum
 
-## Evaluation Metrics
+## Evaluation
 
-- **FID (Fréchet Inception Distance)**: Measures distributional similarity between real and synthetic images
-- **Classification Performance**: Accuracy, sensitivity, specificity on real vs synthetic data
-- **Saliency Analysis**: Brain region importance for classification decisions
+- **FID**: Per-slice FID scores (Inception-based)
+- **Classification**: Accuracy, sensitivity, specificity, AUC on real/synthetic/mixed data
+- **Saliency**: Attribution maps (InputxGradient, Integrated Gradients, Gradient SHAP) for interpretability
 
 ## Medical Context
 
-This work focuses on:
-- **Temporal Lobe Epilepsy (TLE)**: A common form of focal epilepsy
-- **T1-weighted MRI**: Structural brain imaging modality
-- **Synthetic Data Generation**: Augmenting limited medical datasets while preserving privacy
-- **Interpretability**: Understanding which brain regions are important for classification
+- **Application**: Temporal Lobe Epilepsy (TLE) vs Healthy Controls (HC) classification
+- **Data**: T1-weighted MRI brain scans
+- **Goal**: Generate synthetic medical images for data augmentation

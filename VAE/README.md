@@ -14,108 +14,47 @@ The VAE serves as the first stage in our diffusion pipeline:
 ```
 VAE/
 ├── model/
-│   ├── maisi_vae.py              # Main VAE architecture (MAISI-based)
-│   ├── discriminator.py          # Discriminator for adversarial training
-│   ├── lpips3D.py               # 3D LPIPS perceptual loss
-│   ├── resnet_blocks.py         # ResNet building blocks
-│   └── enc_dec.py               # Encoder/decoder components
+│   ├── __init__.py               # Package initialization
+│   ├── maisi_vae.py              # Main VAE architectures (VAE Lite)
+│   └── lpips3D.py                # 3D LPIPS perceptual loss
 ├── train.py                      # Main training script
-├── infer.py                     # Inference script for encoding/decoding
-├── save_latent.py               # Save latent representations
-├── dataset.py                   # Dataset handling for VAE training
-├── utils.py                     # Training utilities and helper functions
-├── visualize_recon.ipynb        # Reconstruction visualization notebook
-├── runs/                        # Training run outputs
-└── best_runs/                   # Best model checkpoints
+├── infer.py                      # Inference script for encoding/decoding
+├── save_latent.py                # Save latent representations of dataset
+├── generate_synthetic_samples.py # Generate samples from VAE prior
+├── dataset.py                    # Dataset handling (MRIDataset, BalancedBatchSampler)
+├── utils.py                      # Training utilities and helper functions
+└── visualize_recon.ipynb         # Reconstruction visualization notebook
 ```
 
 ## Architecture Details
 
-### VAE Model (`maisi_vae.py`)
-- **Type**: 3D Variational Autoencoder based on MAISI architecture
-- **Input**: 3D MRI volumes (typically 91×109×91×1)
-- **Latent Space**: Compact representation (configurable dimensions)
-- **Features**:
-  - ResNet blocks for stable training
-  - Optional attention mechanisms
-  - Configurable channel dimensions
-  - Memory-efficient implementation
+### Key Components
 
-### Discriminator (`discriminator.py`)
-- **Purpose**: Adversarial training to improve reconstruction quality
-- **Architecture**: 3D convolutional discriminator
-- **Loss**: Helps VAE generate more realistic reconstructions
-
-### Perceptual Loss (`lpips3D.py`)
-- **Purpose**: 3D extension of LPIPS (Learned Perceptual Image Patch Similarity)
-- **Function**: Measures perceptual similarity in reconstruction loss
-- **Benefit**: Improves visual quality of reconstructions
+- **`maisi_vae.py`**: VAE and VAE_Lite models (MAISI-based 3D encoder-decoder)
+  - Input: 112×136×112 MRI volumes → Latent: 4×28×34×28
+  - Components: Encoder, Decoder, ResNet blocks with attention
+- **`lpips3D.py`**: 3D LPIPS perceptual loss for better reconstruction quality
 
 ## Usage
 
-### Training
+### Usage
 
-```bash
-python train.py --config_file config.json
-```
+**Training**: Edit hyperparameters in script, then run `python train.py`
 
-### Key Training Parameters
+**Inference**: Encode/decode MRI volumes with `python infer.py` (update `run_folder` path)
 
-- `spatial_dims`: 3 (for 3D volumes)
-- `in_channels`: 1 (single-channel T1w images)
-- `out_channels`: 1 (reconstructed single-channel)
-- `channels`: (32, 64, 128) - encoder/decoder channel progression
-- `latent_channels`: 4 - latent space dimensionality
-- `num_res_blocks`: (1, 1, 1) - ResNet blocks per level
+**Save Latents**: Encode dataset for diffusion training with `python save_latent.py`
 
-### Inference
+**Generate Samples**: Sample from VAE prior with `python generate_synthetic_samples.py`
 
-```bash
-python infer.py --model_checkpoint best_model.pth --input_data data.nii
-```
+## Training Details
 
-### Saving Latent Representations
+**Loss**: Reconstruction (L1) + KL divergence + LPIPS perceptual loss
 
-```bash
-python save_latent.py --model_checkpoint best_model.pth --dataset train_data.csv
-```
+**Key Parameters**: Configure in `train.py` (batch_size=2-4, lr=1e-4, latent_channels=4)
 
-## Training Process
+**Evaluation**: Reconstruction quality (L1, LPIPS), KL divergence
 
-### Loss Components
-
-1. **Reconstruction Loss**: MSE between input and reconstructed images
-2. **KL Divergence**: Regularization term for latent space
-3. **Perceptual Loss**: LPIPS-based perceptual similarity
-
-
-## Configuration
-
-Key hyperparameters in training:
-
-```python
-hyperparams = {
-    'batch_size': 2,           # Small batch size due to 3D memory requirements
-    'learning_rate': 1e-4,     # Conservative learning rate
-    'num_epochs': 100,         # Extended training for convergence
-    'weight_decay': 1e-5,      # L2 regularization
-    'beta': 1.0,              # KL divergence weight
-}
-```
-
-## Evaluation
-
-### Metrics
-
-- **Reconstruction Quality**: L1 loss, LPIPS loss
-- **Latent Space Quality**: KL divergence
-- **Perceptual Quality**: LPIPS scores, visual assessment
-
-### Visualization
-
-Use `visualize_recon.ipynb` to:
-- Compare original vs reconstructed images
-- Visualize latent space interpolations
-- Assess reconstruction quality across different brain regions
+**Visualization**: Use `visualize_recon.ipynb` for qualitative assessment
 
 

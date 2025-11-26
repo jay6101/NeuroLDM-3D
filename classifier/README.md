@@ -26,109 +26,39 @@ classifier/
 └── new_runs/                    # Training run outputs and checkpoints
 ```
 
-## Model Architectures
+## Model Architecture
 
-### Supported Models
-
-The framework supports multiple architectures through dynamic model loading:
-
-```python
-# Available model architectures
-models = [
-    'efficientNetV2',    # 2D EfficientNet with modified first layer
-]
-```
-
-### Model Selection
-
-```python
-def get_model_class(modelname):
-    """Dynamically import model based on name"""
-    module = __import__(f'model.{modelname}', fromlist=['MRIClassifier'])
-    return getattr(module, 'MRIClassifier')
-```
+**EfficientNetV2** (`model/efficientNetV2.py`): Binary classifier for HC vs TLE
+- Input: 112×115×112 MRI volumes (We crop the region from the coronal axis where there is no brain information)
+- Modified first conv for single-channel input
+- Output: Binary classification score
 
 ## Usage
 
-### Key Training Features
+### Usage
 
-#### Synthetic Data Integration
-```python
-# Dataset supports mixing real and synthetic data
-train_dataset = MRIDataset(
-    train_df, 
-    hyperparams, 
-    train=True, 
-    num_samples=2723,           # Total samples
-    num_synth_samples=1361      # 50% synthetic data
-)
-```
+**Training**: `python run.py` or `python train.py` (edit hyperparameters in script)
 
-#### Balanced Sampling
-```python
-# Ensures balanced batches across HC/TLE classes
-train_sampler = BalancedBatchSampler(train_dataset, batch_size)
-train_loader = DataLoader(train_dataset, batch_sampler=train_sampler)
-```
+**Synthetic Data Integration**: Set `num_synth_samples` in hyperparams
+- Automatically mixes real + synthetic .pkl files
+- Balanced batch sampling for stable training
+
+**Training Scenarios** (see `new_runs/`):
+- `real_X`: Real only
+- `real_X_syn_Y`: Real + Y% synthetic
+- `syn_X`: Synthetic only
 
 ## Training Configuration
 
-### Hyperparameters
+**Key Hyperparameters**: dropout=0.5, batch_size=128, lr=1e-3, epochs=100
 
-```python
-hyperparams = {
-    # Model architecture
-    'dropout_rate': 0.5,
-    
-    # Training parameters
-    'batch_size': 128,                  
-    'learning_rate': 1e-3,
-    'weight_decay': 0,
-    'num_epochs': 100,
-    
-    # Scheduler settings
-    'scheduler_type': 'cosine',         # 'cosine' or 'plateau'
-    'cosine_t0': 25,                   # Cosine annealing period
-    'cosine_t_mult': 2,                # Period multiplier
-    'cosine_eta_min': 1e-5,            # Minimum learning rate
-    
-    # Data settings
-    'val_split': 0.37,                  # Validation split ratio
-    'num_workers': 4,                  # DataLoader workers
-    'pin_memory': True,                # GPU memory optimization
-    
-}
-```
+**Loss**: BCEWithLogitsLoss (binary classification)
 
-### Loss Function
-
-```python
-# Binary cross-entropy with logits
-criterion = nn.BCEWithLogitsLoss()
-
-# Optional: Weighted loss for class imbalance
-pos_weight = torch.tensor(neg_samples / pos_samples)
-criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-```
+**Scheduler**: Cosine annealing with restarts
 
 ## Evaluation Metrics
 
-### Classification Metrics
-
-```python
-def calculate_metrics(y_true, y_pred, y_scores):
-    """
-    Comprehensive metric calculation
-    
-    Returns:
-    - accuracy: Overall classification accuracy
-    - sensitivity: True positive rate (recall)
-    - specificity: True negative rate  
-    - precision: Positive predictive value
-    - f1_score: Harmonic mean of precision and recall
-    - auc: Area under ROC curve
-    """
-```
+Accuracy, Sensitivity, Specificity, Precision, F1-Score, AUC
 
 ## Saliency Analysis
 
@@ -136,113 +66,60 @@ For detailed saliency analysis documentation, see [SALIENCY_README.md](SALIENCY_
 
 ### Quick Start: Saliency Generation
 
-```bash
-python run_saliency_generation.py \
-    --model_checkpoint /path/to/best_model.pth \
-    --data_csv /path/to/test_data.csv \
-    --output_dir ./saliency_outputs \
-    --methods vanilla_backprop guided_backprop grad_cam
-```
+`python run_saliency_generation.py` or `python generate_saliency_maps.py`
+
+Edit paths in script for model checkpoint, parameters.json, and validation CSV.
+
+**Methods**: Integrated Gradients, Saliency Maps, Gradient SHAP, Input×Gradient
 
 ## Implementation Details
 
-### Dataset Handling (`dataset.py`)
+**Dataset** (`dataset.py`): Loads NIfTI files (real) and .pkl files (synthetic) with balanced sampling
 
-```python
-class MRIDataset(Dataset):
-    """
-    Handles both real and synthetic MRI data
-    
-    Features:
-    - NIfTI file loading with nibabel
-    - Automatic synthetic data mixing
-    - Data augmentation (optional)
-    - Label encoding (HC=0, TLE=1)
-    - Memory-efficient loading
-    """
-```
-
-### Balanced Batch Sampling
-
-```python
-class BalancedBatchSampler:
-    """
-    Ensures each batch has balanced HC/TLE samples
-    
-    Benefits:
-    - Stable training dynamics
-    - Consistent gradient signals
-    - Reduced class imbalance effects
-    """
-```
+**BalancedBatchSampler**: Ensures equal HC/TLE samples per batch
 
 ## Training Pipeline
 
-### 1. Data Preparation
-```python
-# Load and prepare datasets
-train_df = pd.read_csv(train_csv)
-test_df = pd.read_csv(test_csv)
-
-# Filter to HC/TLE classes only
-train_df = train_df[train_df["HC_vs_LTLE_vs_RTLE_string"].isin(["right", "left", "HC"])]
-```
-
-
-### 3. Model Training
-```python
-for fold_idx, (train_idx, val_idx) in enumerate(skf.split(X, y)):
-    # Initialize model for current fold
-    model = MRIClassifier(dropout_rate=hyperparams['dropout_rate'])
-    
-    # Train with early stopping
-    best_val_loss = train_fold(model, train_loader, val_loader)
-    
-    # Save fold results
-    save_fold_metrics(fold_metrics, fold_dir)
-```
-
-### 4. Final Evaluation
-```python
-# Test on held-out test set
-test_metrics = evaluate_model(best_model, test_loader)
-
-# Generate saliency maps for interpretability
-generate_saliency_maps(best_model, test_loader, output_dir)
-```
-
-## Synthetic Data Evaluation
-
-### Integration Strategy
-
-1. **Mixed Training**: Train on real + synthetic data
-2. **Ablation Studies**: Compare real-only vs mixed training
-3. **Quality Assessment**: Measure performance drop/gain with synthetic data
+1. Load train/test CSVs → filter to HC/TLE
+2. Create datasets (real + optional synthetic)
+3. Train with balanced sampling
+4. Evaluate on test set
+5. Generate saliency maps
 
 ## Output Structure
 
+Training outputs are organized by experiment:
+
 ```
 new_runs/
-└── run_YYYYMMDD_HHMMSS_modelname/
-    ├── parameters.json           # Hyperparameters
-    ├── fold_1/
-        ├── best_model.pth       # Best model checkpoint
-        ├── fold_metrics.json    # Fold performance metrics
-        └── saliency_maps/       # Generated saliency maps
+├── runs_500/                     # Experiments with 500 real samples
+│   ├── real_500/                 # Real data only
+│   ├── real_500_syn_25/          # Real + 25% synthetic (25% corresponds to 25% of #real_scans)
+│   ├── real_500_syn_50/          # Real + 50% synthetic
+│   ├── real_500_syn_75/          # Real + 75% synthetic
+│   └── real_500_syn_100/         # Real + 100% synthetic
+├── runs_1000/                    # Experiments with 1000 real samples
+├── runs_2000/                    # Experiments with 2000 real samples
+├── runs_2723/                    # Experiments with 2723 real samples (full dataset)
+└── runs_syn/                     # Synthetic-only experiments
+    ├── syn_500/
+    ├── syn_1000/
+    ├── syn_2000/
+    ├── syn_2723/
+    └── syn_5446/                 # Double dataset size (synthetic)
+
+# Each experiment directory contains:
+├── dataset.py                    # Dataset script used
+├── efficientNetV2.py             # Model architecture used
+├── train.py                      # Training script used
+├── run.py                        # Orchestration script used
+├── utils.py                      # Utilities used
+├── parameters.json               # Hyperparameters
+└── all_folds_metrics.json        # Aggregated metrics across folds
 ```
 
 ## Integration with Pipeline
 
-### VAE Integration
-```python
-# Evaluate VAE reconstructions
-vae_reconstructions = vae.decode(latent_codes)
-classification_performance = classifier.evaluate(vae_reconstructions)
-```
-
-### Diffusion Integration  
-```python
-# Evaluate diffusion-generated samples
-synthetic_samples = diffusion_model.sample(num_samples=1000)
-synthetic_performance = classifier.evaluate(synthetic_samples)
-```
+Synthetic samples from diffusion model are evaluated via:
+1. Classification performance (train with mixed real+synthetic)
+2. Saliency analysis (verify anatomical correctness)
