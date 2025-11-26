@@ -1,1 +1,0 @@
-FID Score (Inception 2D slices): 0.33595158230164657
