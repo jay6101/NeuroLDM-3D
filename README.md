@@ -7,7 +7,7 @@ This repository contains the implementation of a diffusion model approach for ge
 The project consists of three main components working together in a pipeline:
 
 1. **VAE (Variational Autoencoder)** - Encodes 3D MRI volumes into a lower-dimensional latent space
-2. **Diffusion Model** - Generates new samples in the VAE latent space using a 3D DiT (Diffusion Transformer) with window attention
+2. **Diffusion Model** - Generates new samples in the VAE latent space using a 3D DiT (Diffusion Transformer)
 3. **Classifier** - Classifies real and synthetic images, with saliency map generation for interpretability
 
 ## Repository Structure

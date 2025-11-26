@@ -13,21 +13,17 @@ class MRIDataset(Dataset):
         # Read the CSV file using pandas
         paths = os.path.join(root_dir,"train/*.pkl")
         self.train_files = glob.glob(paths)
-        #self.train_files.extend(glob.glob("/space/mcdonald-syn01/1/projects/jsawant/DSC250/diffusion/latent_data/val/*.pkl"))
         self.train = train
         
         self.samples = []
         
         for file in self.train_files:
             with open(file, 'rb') as f:
-                latent = pickle.load(f)
-            if latent['label']==0:          # HC
-                self.samples.append((file, latent['label']))
+                latent = pickle.load(f)# HC
+            self.samples.append((file, latent['label']))
         
-    
     def __len__(self):
         return len(self.samples)
-    
 
     def reparameterize(self, mu, logvar):
         std = torch.exp(0.5 * logvar)
@@ -42,7 +38,6 @@ class MRIDataset(Dataset):
         
         latent_z = self.reparameterize(torch.from_numpy(latent['mu']).float(),torch.from_numpy(latent['logvar']).float())
         label = torch.tensor(latent['label'])
-        
         
         return latent_z, label
 

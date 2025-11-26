@@ -278,7 +278,7 @@ def calculate_per_slice_fid_ignite(config):
                     else:  # axis2 (axial)
                         slice_2d = volume[:, :, pos] #if pos < volume.shape[2] else np.zeros((volume.shape[0], volume.shape[1]))
                     
-                    img_tensor = preprocess_slice_for_inception(slice_2d, target_height, target_width, minmax_for_synthetic=True)
+                    img_tensor = preprocess_slice_for_inception(slice_2d, target_height, target_width, minmax_for_synthetic=False)
                     synthetic_slices.append(img_tensor)
                 
                 # Process in sub-batches and update FID metric

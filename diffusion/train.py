@@ -12,11 +12,20 @@ import numpy as np
 from copy import deepcopy
 from collections import OrderedDict
 
-from dataset import MRIDataset, BalancedBatchSampler  
+# -------------
+#  Your custom dataset for MRI latents
+# -------------
+from dataset import MRIDataset  # e.g. "from data.mri_dataset import MRIDataset"
 
-from model.dit3d_window_attn import DiT3D_models_WindAttn 
+# -------------
+#  The 3D DiT with window-based attention:
+# -------------
+from model.dit3d_window_attn import DiT3D_models_WindAttn  # e.g. from your local .py
+# Or import your custom dictionary if you named it differently
 
-from tensorboardX import SummaryWriter
+# -------------
+#  Logging utilities
+# -------------
 import random
 
 ###############################################################################
@@ -234,7 +243,7 @@ class GaussianDiffusion:
         for i in reversed(range(self.num_timesteps)):
             t = torch.full((shape[0],), i, device=device, dtype=torch.long)
             x = self.p_sample(denoise_fn, x, t, label)
-            if i%10==0:
+            if i%100==0 or i==999 or i==970 or i==950:
                 evolve.append(x.detach().cpu().numpy())
         return x, evolve
 
@@ -363,15 +372,14 @@ def setup_dataset_and_loader(opt):
     # Example usage
     train_dataset = MRIDataset(opt.dataroot, split='train')
     # (You can define 'root' or any other param your MRIDataset needs.)
-    #train_sampler = BalancedBatchSampler(train_dataset, opt.bs)
 
     # No test dataset is shown. Add if needed.
     train_dataloader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=opt.bs,
         shuffle=True,
-        #batch_sampler=train_sampler,
         num_workers=opt.workers,
+        drop_last=True,
     )
     return train_dataloader
 
@@ -567,7 +575,7 @@ def parse_args():
     # Data params
     parser.add_argument('--dataroot', default='/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/diffusion/latent_data')
     parser.add_argument('--category', default='chair')
-    parser.add_argument('--num_classes', type=int, default=1)
+    parser.add_argument('--num_classes', type=int, default=2)
 
     parser.add_argument('--bs', type=int, default=4, help='input batch size')
     parser.add_argument('--workers', type=int, default=2, help='workers')

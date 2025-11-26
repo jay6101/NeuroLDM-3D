@@ -54,6 +54,10 @@ synthetic_data_pkls_*/
 classifier/new_runs/*/*/fold_1
 # fid_results/ - Now tracked (excluding only model files)
 
+# Exception: Include .npy and .npz files in fid_results_ignite folder
+!fid_results_ignite/*.npy
+!fid_results_ignite/*.npz
+
 # CSV files with data paths (may contain sensitive paths)
 train.csv
 val.csv

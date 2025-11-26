@@ -14,13 +14,11 @@ import torch.nn.functional as F
 from PIL import Image
 from torchvision import transforms
 
-# If all classes/functions (Model, get_betas, etc.) are in train.py, import them:
-# (Adjust if you placed Model or get_betas in different modules.)
 from train import Model, get_betas
 import pickle
 
 def load_models(run_folder, device):
-    """Load the trained VAE and Discriminator models."""
+    """Load the trained VAE model."""
     # Load hyperparameters
     with open(os.path.join(run_folder, 'hparams.json'), 'r') as f:
         hparams = json.load(f)
@@ -168,32 +166,10 @@ def get_args():
 
     return opt
 
-def preprocess(image):
-    image = image[:,9:124,:]
-    base_transform = transforms.Compose([
-            transforms.Resize((113, 113)),  # First resize to 113x113
-            transforms.Pad(padding=(7, 7, 8, 8), fill=0),  # Add asymmetric padding to reach 128x128
-            transforms.ToTensor(),
-            #transforms.Lambda(lambda x: x.mul(2).sub(1))
-        ])
-    slices = []
-    for i in range(image.shape[1]):
-        slice_img = Image.fromarray(image[:, i, :])
-        # Apply base transforms
-        slice_tensor = base_transform(slice_img)
-        slices.append(slice_tensor)
-        
-    image = torch.stack(slices, dim=0)  # Shape: [115, 1, 128, 128]
 
-    return image.squeeze(1).unsqueeze(0)
-
-def generate_and_save(diffusion_model, vae, model, label_list, device):
-    i = 2256
-    for _ in tqdm(range(200)):
-        custom_label = torch.tensor([0], device=device)  # shape (batch_size,)
-        #score = torch.tensor(0.5)
-        #while score.item()> 0.35 if custom_label==0 else score.item()<0.60:
-        #print("Generating new...")
+def generate_and_save(diffusion_model, vae, num_samples, label, device):
+    for i in tqdm(range(num_samples)):
+        custom_label = torch.tensor([label], device=device)  # shape (batch_size,)
         samples, _ = diffusion_model.diffusion.p_sample_loop(
             denoise_fn=diffusion_model._denoise,
             shape=(8, 4, 28, 34, 28),
@@ -202,24 +178,14 @@ def generate_and_save(diffusion_model, vae, model, label_list, device):
         )
         with torch.no_grad():
             out = vae.decode(samples)
-            # out2 = out[0][0].cpu().numpy()
-            # out2 = preprocess(out2).to(device)
-            # score,_ = model(out2)
-            # score = F.sigmoid(score)
-            # print(score.item())
-        #if score.item()<1: #or score.item()>0.65:
+
         out = out.cpu().numpy()
         for j in range(len(out)):
             pick = {'image' : out[j][0]}
-            #if score.item()<1:
             pick['label'] = custom_label.item()
-                #print("Generated HC")
-            # elif score.item()>0.65:
-            #     pick['label'] = 1
-            #     print("Generated TLE")
+
             with open(f"/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/synthetic_data_pkls_HC/{i}_{pick['label']}.pkl", 'wb') as file:
                 pickle.dump(pick, file)
-            i = i+1
     return
 
 vae_run_folder = "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/VAE/best_runs/vae_run_20250226_161525"
@@ -230,13 +196,7 @@ opt = get_args()
 vae, hparams = load_models(vae_run_folder, device)
 vae.eval()
 diffusion_model = load_diffusion(diffusion_model_path, opt, device)
-model = None #MRIClassifier(dropout_rate=0.5).to(device)
-# checkpoint = torch.load("/space/mcdonald-syn01/1/projects/jsawant/2D_supervised_HC_vs_TLE/runs/run_20250213_043629_efficientNetV2/fold_2/best_model.pth", 
-#                         map_location=device)
-# model.load_state_dict(checkpoint['model_state_dict'])
-# model.eval()
-# del checkpoint
 
-label_list = [1]*58
-label_list.extend([1]*42)
-generate_and_save(diffusion_model, vae, model, label_list, device)
+label = 0
+num_samples = 2000
+generate_and_save(diffusion_model, vae, num_samples, label, device)

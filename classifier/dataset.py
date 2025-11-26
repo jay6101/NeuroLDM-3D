@@ -36,7 +36,6 @@ class MRIDataset(Dataset):
             # Combine all stratified samples
             self.data = pd.concat(stratified_samples.values()).reset_index(drop=True)
         
-        #self.data = self.data[~self.data['file'].str.contains("/space/mcdonald-syn01/1/BIDS//enigma_conglom//derivatives//cat12_copy/sub-upenn", na=False)]
         self.train = train
         
         # Define base transforms that are always applied

@@ -5,8 +5,6 @@ import json
 from torch.utils.data import DataLoader
 from dataset import MRIDataset, BalancedBatchSampler
 from model.maisi_vae import VAE_Lite
-from model.discriminator import Discriminator 
-#from model.densenet3d import DenseNet3D  # or your 3D DenseNet LPIPS
 from model.lpips3D import LPIPSLoss3D
 from utils import (
     set_random_seeds,
@@ -33,17 +31,12 @@ def train_vae_gan(hparams):
     
     # Initialize dictionary to store losses
     losses = {
-        'train_g_losses': [],
-        'train_d_losses': [],
-        'val_g_losses': [],
-        'val_d_losses': [],
+        'train_losses': [],
+        'val_losses': [],
         'best_epoch': None,
         'best_losses': {
-            'train_g': None,
-            'train_d': None,
-            'val_g': None,
-            'val_d': None,
-            'val_total': None
+            'train': None,
+            'val': None
         }
     }
     
@@ -97,37 +90,20 @@ def train_vae_gan(hparams):
     vae.load_state_dict(checkpoint['vae_state_dict'])
     del checkpoint
     
-    # Only initialize discriminator if using GAN training
-    disc = None
-    if hparams.get('use_discriminator', True):
-        disc = Discriminator().to(hparams['device'])
-        disc_ckpt = torch.load(hparams['disc_checkpoint'], map_location=hparams['device'])
-        disc.load_state_dict(disc_ckpt['disc_state_dict'])
-        del disc_ckpt
-    
     lpips_model = LPIPSLoss3D(hparams['lpips_model']).to(hparams['device'])
     # Freeze LPIPS model weights (assuming it's already loaded in model.py)
     lpips_model.eval()
     for p in lpips_model.parameters():
         p.requires_grad = False
     
-    # 6. Optimizers (two separate)
+    # 6. Optimizer
     optimizer_vae = torch.optim.Adam(
         vae.parameters(),
         lr=hparams['vae_lr'],
         weight_decay=hparams['weight_decay']
     )
     
-    # Only create discriminator optimizer if using GAN training
-    optimizer_disc = None
-    # if disc is not None:
-    #     optimizer_disc = torch.optim.Adam(
-    #         disc.parameters(),
-    #         lr=hparams['disc_lr'],
-    #         weight_decay=hparams['weight_decay']
-    #     )
-    
-    # Set up schedulers
+    # Set up scheduler
     scheduler_vae = None
     if hparams.get('use_cosine_scheduler', False):
         scheduler_vae = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
@@ -136,7 +112,6 @@ def train_vae_gan(hparams):
             T_mult=hparams['cosine_t_mult'],
             eta_min=hparams['cosine_eta_min']
         )
-    scheduler_disc = None
     
     # 7. Training loop
     best_val_loss = float('inf')
@@ -145,60 +120,41 @@ def train_vae_gan(hparams):
     for epoch in range(hparams['num_epochs']):
         # --- Train ---
         vae.train()
-        if disc is not None:
-            disc.train()
         print(f"--------------- Epoch {epoch} -------------------")
-        train_g_loss, train_d_loss = train_one_epoch(
-            vae, disc, lpips_model,
-            train_loader, optimizer_vae, optimizer_disc,
+        train_loss = train_one_epoch(
+            vae, lpips_model,
+            train_loader, optimizer_vae,
             hparams, epoch
         )
         
         # --- Validate ---
         vae.eval()
-        if disc is not None:
-            disc.eval()
-        # val_g_loss, val_d_loss = validate_one_epoch(
-        #     vae, disc, lpips_model,
-        #     val_loader, hparams
-        # )
+        val_loss = validate_one_epoch(
+            vae, lpips_model,
+            val_loader, hparams
+        )
         
-        # print(f"[Epoch {epoch+1}] "
-        #       f"Train G: {train_g_loss:.4f} | Train D: {train_d_loss:.4f} | "
-        #       f"Val G: {val_g_loss:.4f} | Val D: {val_d_loss:.4f}")
+        print(f"[Epoch {epoch+1}] "
+              f"Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f}")
         
         # Store losses
-        losses['train_g_losses'].append(float(train_g_loss))
-        losses['train_d_losses'].append(float(train_d_loss))
-        # losses['val_g_losses'].append(float(val_g_loss))
-        # losses['val_d_losses'].append(float(val_d_loss))
+        losses['train_losses'].append(float(train_loss))
+        losses['val_losses'].append(float(val_loss))
         
         # Check if this is the best model so far
-        val_total = 0#val_g_loss #+ val_d_loss
-        if val_total < best_val_loss:
-            best_val_loss = val_total
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
             patience_counter = 0
             # Update best losses
             losses['best_epoch'] = epoch + 1
-            losses['best_losses']['train_g'] = float(train_g_loss)
-            losses['best_losses']['train_d'] = float(train_d_loss)
-            # losses['best_losses']['val_g'] = float(val_g_loss)
-            # losses['best_losses']['val_d'] = float(val_d_loss)
-            losses['best_losses']['val_total'] = float(val_total)
+            losses['best_losses']['train'] = float(train_loss)
+            losses['best_losses']['val'] = float(val_loss)
             # Save checkpoint
-            if hparams['use_discriminator'] is True:
-                torch.save({
-                    'epoch': epoch,
-                    'vae_state_dict': vae.state_dict(),
-                    'disc_state_dict': disc.state_dict(),
-                    'val_loss': val_total
-                }, os.path.join(run_dir, 'best_vae_gan.pth'))
-            else:
-                torch.save({
-                    'epoch': epoch,
-                    'vae_state_dict': vae.state_dict(),
-                    'val_loss': val_total
-                }, os.path.join(run_dir, 'best_vae_gan.pth'))
+            torch.save({
+                'epoch': epoch,
+                'vae_state_dict': vae.state_dict(),
+                'val_loss': val_loss
+            }, os.path.join(run_dir, 'best_vae_gan.pth'))
             print(f"** Best model saved at epoch {epoch+1}")
         else:
             patience_counter += 1
@@ -212,11 +168,9 @@ def train_vae_gan(hparams):
         with open(os.path.join(run_dir, 'losses.json'), 'w') as f:
             json.dump(losses, f, indent=4)
         
-        # (Optional) step schedulers
+        # (Optional) step scheduler
         if scheduler_vae is not None:
             scheduler_vae.step()
-        if scheduler_disc is not None:
-            scheduler_disc.step()
 
     print("Training complete.")
 

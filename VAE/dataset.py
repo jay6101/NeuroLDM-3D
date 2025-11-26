@@ -58,8 +58,8 @@ class MRIDataset(Dataset):
         if self.train:
             flip_h = torch.rand(1) < 0.5
             flip_v = torch.rand(1) < 0.5
-            angle = torch.rand(1) * 30 - 15  # Random angle between -15 and 15 degrees
-            channel_flip = torch.rand(1) < 0.5
+            # angle = torch.rand(1) * 30 - 15  # Random angle between -15 and 15 degrees
+            # channel_flip = torch.rand(1) < 0.5
             # if channel_flip:
             #     image = image[:,::-1,:]
         
