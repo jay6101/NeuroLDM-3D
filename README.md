@@ -55,7 +55,7 @@ NeuroLDM-3D/
 └── data_split.ipynb               # Data splitting utilities
 ```
 
-**Note**: The actual MRI data and CSV files are typically stored outside this repository in a parent directory (e.g., `Diffusion_paper/data_csvs/`, `Diffusion_paper/synthetic_data_pkls_TLE/`, `Diffusion_paper/synthetic_data_pkls_HC/`). Update paths in training scripts according to your data location.
+**Note**: The actual MRI data and CSV files are typically stored outside this repository in a parent directory (e.g., `NeuroLDM_3D/data_csvs/`, `NeuroLDM_3D/synthetic_data_pkls_TLE/`, `NeuroLDM_3D/synthetic_data_pkls_HC/`). Update paths in training scripts according to your data location.
 
 ## Pipeline
 

@@ -70,7 +70,7 @@ test.csv
 saved_models/
 synthetic_samples/
 saliency_maps/ - Now tracked (excluding only large model files)
-best_runs/
+VAE/best_runs/
 
 # Environment
 .env
