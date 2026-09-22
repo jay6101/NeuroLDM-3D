@@ -23,7 +23,12 @@ VAE/
 ├── generate_synthetic_samples.py # Generate samples from VAE prior
 ├── dataset.py                    # Dataset handling (MRIDataset, BalancedBatchSampler)
 ├── utils.py                      # Training utilities and helper functions
-└── visualize_recon.ipynb         # Reconstruction visualization notebook
+├── visualize_recon.ipynb         # Reconstruction visualization notebook
+└── recon_eval/                   # Held-out reconstruction + ROI analysis (revision)
+    ├── evaluate_reconstruction.py
+    ├── export_examples.py / make_examples_figure.py
+    ├── results/                  # per-subject metrics, summaries, example figures
+    └── roi_analysis/             # Harvard-Oxford or AAL3 ROI MSE
 ```
 
 ## Architecture Details
@@ -53,7 +58,11 @@ VAE/
 
 **Key Parameters**: Configure in `train.py` (batch_size=2-4, lr=1e-4, latent_channels=4)
 
-**Evaluation**: Reconstruction quality (L1, LPIPS), KL divergence
+**Evaluation**: Reconstruction quality (L1, LPIPS), KL divergence during training
+
+**Held-out reconstruction** (`recon_eval/`): per-volume MSE / NMSE / PSNR / LPIPS on train and the val+test pool, plus native mwp1 units. Example command: `python evaluate_reconstruction.py` (edit paths in `common.py`). Qualitative examples: `python export_examples.py --selection percentile --percentiles 5 95`. ROI MSE (hippocampus, parahippocampal gyrus, amygdala, thalamus, insula, cingulate, anterior temporal): `python roi_analysis/roi_mse_analysis.py --atlas aal3`.
+
+Committed numbers live in `recon_eval/results/` and `recon_eval/roi_analysis/results_aal3/`.
 
 **Visualization**: Use `visualize_recon.ipynb` for qualitative assessment
 

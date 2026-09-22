@@ -1,0 +1,16 @@
+{
+  "split": "test",
+  "csv": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/data_csvs/test.csv",
+  "vae_ckpt": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/VAE/best_runs/vae_run_20250226_161525/best_vae.pth",
+  "n": 303,
+  "label_counts": {
+    "0": 128,
+    "1": 175
+  },
+  "latent_shape": [
+    4,
+    28,
+    34,
+    28
+  ]
+}

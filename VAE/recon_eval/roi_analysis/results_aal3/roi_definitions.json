@@ -1,0 +1,272 @@
+{
+  "grid": {
+    "shape": [
+      112,
+      136,
+      112
+    ],
+    "affine": [
+      [
+        -1.5133928571428572,
+        0.0,
+        0.0,
+        83.99330357142857
+      ],
+      [
+        0.0,
+        1.5,
+        0.0,
+        -118.5
+      ],
+      [
+        0.0,
+        0.0,
+        1.5133928571428572,
+        -71.99330357142857
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "label_index": {
+    "1": "Hippocampus",
+    "2": "Parahippocampal gyrus",
+    "3": "Amygdala",
+    "4": "Thalamus",
+    "5": "Insula",
+    "6": "Cingulate cortex",
+    "7": "Anterior temporal cortex"
+  },
+  "rois": {
+    "Hippocampus": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "Hippocampus_L",
+        "Hippocampus_R"
+      ],
+      "label_values": [
+        41,
+        42
+      ]
+    },
+    "Parahippocampal gyrus": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "ParaHippocampal_L",
+        "ParaHippocampal_R"
+      ],
+      "label_values": [
+        43,
+        44
+      ]
+    },
+    "Amygdala": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "Amygdala_L",
+        "Amygdala_R"
+      ],
+      "label_values": [
+        45,
+        46
+      ]
+    },
+    "Thalamus": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "Thal_AV_L",
+        "Thal_AV_R",
+        "Thal_LP_L",
+        "Thal_LP_R",
+        "Thal_VA_L",
+        "Thal_VA_R",
+        "Thal_VL_L",
+        "Thal_VL_R",
+        "Thal_VPL_L",
+        "Thal_VPL_R",
+        "Thal_IL_L",
+        "Thal_IL_R",
+        "Thal_Re_L",
+        "Thal_Re_R",
+        "Thal_MDm_L",
+        "Thal_MDm_R",
+        "Thal_MDl_L",
+        "Thal_MDl_R",
+        "Thal_LGN_L",
+        "Thal_LGN_R",
+        "Thal_MGN_L",
+        "Thal_MGN_R",
+        "Thal_PuI_L",
+        "Thal_PuI_R",
+        "Thal_PuM_L",
+        "Thal_PuM_R",
+        "Thal_PuA_L",
+        "Thal_PuA_R",
+        "Thal_PuL_L",
+        "Thal_PuL_R"
+      ],
+      "label_values": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150
+      ]
+    },
+    "Insula": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "Insula_L",
+        "Insula_R"
+      ],
+      "label_values": [
+        33,
+        34
+      ]
+    },
+    "Cingulate cortex": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "ACC_sub_L",
+        "ACC_sub_R",
+        "ACC_pre_L",
+        "ACC_pre_R",
+        "ACC_sup_L",
+        "ACC_sup_R",
+        "Cingulate_Mid_L",
+        "Cingulate_Mid_R",
+        "Cingulate_Post_L",
+        "Cingulate_Post_R"
+      ],
+      "label_values": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    "Anterior temporal cortex": {
+      "atlas": "AAL3v2 (AAL3v1_1mm)",
+      "labels": [
+        "Temporal_Pole_Sup_L",
+        "Temporal_Pole_Sup_R",
+        "Temporal_Pole_Mid_L",
+        "Temporal_Pole_Mid_R"
+      ],
+      "label_values": [
+        87,
+        88,
+        91,
+        92
+      ]
+    },
+    "Whole brain (non-background)": {
+      "atlas": "data-driven",
+      "labels": [
+        "group-mean intensity > background + 10% of range, 60 held-out subjects"
+      ],
+      "label_values": []
+    }
+  },
+  "voxel_stats": [
+    {
+      "roi": "Hippocampus",
+      "n_voxels": 4113,
+      "volume_ml": 14.130363311144771,
+      "n_left": 2059,
+      "n_right": 2054,
+      "mean_gm_in_roi": 1.9091581106185913
+    },
+    {
+      "roi": "Parahippocampal gyrus",
+      "n_voxels": 4913,
+      "volume_ml": 16.878792839205996,
+      "n_left": 2253,
+      "n_right": 2660,
+      "mean_gm_in_roi": 1.576279640197754
+    },
+    {
+      "roi": "Amygdala",
+      "n_voxels": 984,
+      "volume_ml": 3.380568319515306,
+      "n_left": 467,
+      "n_right": 517,
+      "mean_gm_in_roi": 2.4627254009246826
+    },
+    {
+      "roi": "Thalamus",
+      "n_voxels": 5275,
+      "volume_ml": 18.1224572006537,
+      "n_left": 2675,
+      "n_right": 2600,
+      "mean_gm_in_roi": 1.439902424812317
+    },
+    {
+      "roi": "Insula",
+      "n_voxels": 8449,
+      "volume_ml": 29.026851353236605,
+      "n_left": 4273,
+      "n_right": 4176,
+      "mean_gm_in_roi": 1.7755656242370605
+    },
+    {
+      "roi": "Cingulate cortex",
+      "n_voxels": 17898,
+      "volume_ml": 61.48923961654974,
+      "n_left": 7689,
+      "n_right": 10209,
+      "mean_gm_in_roi": 1.3942066431045532
+    },
+    {
+      "roi": "Anterior temporal cortex",
+      "n_voxels": 10522,
+      "volume_ml": 36.14871936782525,
+      "n_left": 4664,
+      "n_right": 5858,
+      "mean_gm_in_roi": 1.231479525566101
+    },
+    {
+      "roi": "Whole brain (non-background)",
+      "n_voxels": 435063,
+      "volume_ml": 1494.6749947086255,
+      "n_left": 217224,
+      "n_right": 217839,
+      "mean_gm_in_roi": 1.4407823085784912
+    }
+  ]
+}

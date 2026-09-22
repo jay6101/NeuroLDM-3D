@@ -1,0 +1,82 @@
+{
+  "subject": "sub-20131206080839",
+  "group": "TLE",
+  "diagnosis": "right",
+  "quality": "bad",
+  "source": "roi_analysis/results_aal3/per_subject_roi_mse.csv",
+  "cohort": {
+    "n_all": 481,
+    "n_group": 278,
+    "split": "held-out (val.csv U test.csv)"
+  },
+  "scales": {
+    "zscored": "MSE in the per-volume z-scored units the VAE operates on",
+    "native_mwp1": "z-scored MSE x norm_std^2, i.e. native mwp1 grey-matter units"
+  },
+  "rois": {
+    "Hippocampus": {
+      "mse_zscored": 0.0623090155422687,
+      "mse_native_mwp1": 0.0020524291427859,
+      "pct_rank_all": 85.65488565488566,
+      "pct_rank_within_group": 79.49640287769785,
+      "cohort_median_zscored": 0.0487009584903717,
+      "group_median_zscored": 0.0504948366433382
+    },
+    "Parahippocampal gyrus": {
+      "mse_zscored": 0.0753797367215156,
+      "mse_native_mwp1": 0.0024829724410879,
+      "pct_rank_all": 86.07068607068608,
+      "pct_rank_within_group": 82.73381294964028,
+      "cohort_median_zscored": 0.0598773136734962,
+      "group_median_zscored": 0.062393058091402
+    },
+    "Amygdala": {
+      "mse_zscored": 0.0588436834514141,
+      "mse_native_mwp1": 0.0019382827626706,
+      "pct_rank_all": 91.68399168399168,
+      "pct_rank_within_group": 89.568345323741,
+      "cohort_median_zscored": 0.0393501855432987,
+      "group_median_zscored": 0.041845414787530844
+    },
+    "Thalamus": {
+      "mse_zscored": 0.0526489429175853,
+      "mse_native_mwp1": 0.0017342309750925,
+      "pct_rank_all": 83.78378378378379,
+      "pct_rank_within_group": 78.05755395683454,
+      "cohort_median_zscored": 0.0410259813070297,
+      "group_median_zscored": 0.0423858258873224
+    },
+    "Insula": {
+      "mse_zscored": 0.0585239082574844,
+      "mse_native_mwp1": 0.0019277495208684,
+      "pct_rank_all": 37.62993762993763,
+      "pct_rank_within_group": 33.093525179856115,
+      "cohort_median_zscored": 0.0618109852075576,
+      "group_median_zscored": 0.06354055553674695
+    },
+    "Cingulate cortex": {
+      "mse_zscored": 0.0542969293892383,
+      "mse_native_mwp1": 0.0017885148605287,
+      "pct_rank_all": 62.37006237006237,
+      "pct_rank_within_group": 55.75539568345324,
+      "cohort_median_zscored": 0.0514320619404315,
+      "group_median_zscored": 0.0529218111187219
+    },
+    "Anterior temporal cortex": {
+      "mse_zscored": 0.0423490032553672,
+      "mse_native_mwp1": 0.0013949558935061,
+      "pct_rank_all": 27.650727650727653,
+      "pct_rank_within_group": 28.776978417266186,
+      "cohort_median_zscored": 0.0483174286782741,
+      "group_median_zscored": 0.048821978271007496
+    },
+    "Whole brain (non-background)": {
+      "mse_zscored": 0.0926617607474327,
+      "mse_native_mwp1": 0.0030522340390834,
+      "pct_rank_all": 96.25779625779626,
+      "pct_rank_within_group": 94.24460431654677,
+      "cohort_median_zscored": 0.0753486230969429,
+      "group_median_zscored": 0.07702984660863875
+    }
+  }
+}

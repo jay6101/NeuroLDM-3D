@@ -1,0 +1,264 @@
+{
+  "finished_at": "2026-07-01T12:06:38",
+  "gpus": [
+    0,
+    1
+  ],
+  "jobs_per_gpu": 2,
+  "skipped": [],
+  "completed": [
+    "real_500_syn_50",
+    "real_500_syn_25",
+    "real_500",
+    "real_500_syn_75",
+    "real_500_syn_100",
+    "real_1000",
+    "real_1000_syn_25",
+    "real_1000_syn_50",
+    "real_1000_syn_100",
+    "real_1000_syn_75",
+    "real_2000",
+    "real_2000_syn_25",
+    "real_2000_syn_50",
+    "real_2000_syn_75",
+    "real_2000_syn_100",
+    "real_2723",
+    "real_2723_syn_25",
+    "real_2723_syn_50",
+    "real_2723_syn_75",
+    "real_2723_syn_100",
+    "syn_500",
+    "syn_1000",
+    "syn_2000",
+    "syn_2723",
+    "syn_5446"
+  ],
+  "failed": [],
+  "history": [
+    {
+      "variant": "real_500_syn_50",
+      "group": "runs_500",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T17:10:21",
+      "end_time": "2026-06-30T19:32:55",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_500_real_500_syn_50.log"
+    },
+    {
+      "variant": "real_500_syn_25",
+      "group": "runs_500",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T17:10:21",
+      "end_time": "2026-06-30T19:35:40",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_500_real_500_syn_25.log"
+    },
+    {
+      "variant": "real_500",
+      "group": "runs_500",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T17:10:21",
+      "end_time": "2026-06-30T19:36:11",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_500_real_500.log"
+    },
+    {
+      "variant": "real_500_syn_75",
+      "group": "runs_500",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T17:10:21",
+      "end_time": "2026-06-30T19:38:11",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_500_real_500_syn_75.log"
+    },
+    {
+      "variant": "real_500_syn_100",
+      "group": "runs_500",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T19:32:55",
+      "end_time": "2026-06-30T21:58:43",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_500_real_500_syn_100.log"
+    },
+    {
+      "variant": "real_1000",
+      "group": "runs_1000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T19:35:40",
+      "end_time": "2026-06-30T22:10:45",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_1000_real_1000.log"
+    },
+    {
+      "variant": "real_1000_syn_25",
+      "group": "runs_1000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T19:36:11",
+      "end_time": "2026-06-30T22:12:45",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_1000_real_1000_syn_25.log"
+    },
+    {
+      "variant": "real_1000_syn_50",
+      "group": "runs_1000",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T19:38:11",
+      "end_time": "2026-06-30T22:17:46",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_1000_real_1000_syn_50.log"
+    },
+    {
+      "variant": "real_1000_syn_100",
+      "group": "runs_1000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T22:10:45",
+      "end_time": "2026-07-01T00:51:24",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_1000_real_1000_syn_100.log"
+    },
+    {
+      "variant": "real_1000_syn_75",
+      "group": "runs_1000",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T21:58:43",
+      "end_time": "2026-07-01T00:55:39",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_1000_real_1000_syn_75.log"
+    },
+    {
+      "variant": "real_2000",
+      "group": "runs_2000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-06-30T22:12:45",
+      "end_time": "2026-07-01T01:24:14",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2000_real_2000.log"
+    },
+    {
+      "variant": "real_2000_syn_25",
+      "group": "runs_2000",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-06-30T22:17:46",
+      "end_time": "2026-07-01T01:41:01",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2000_real_2000_syn_25.log"
+    },
+    {
+      "variant": "real_2000_syn_50",
+      "group": "runs_2000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T00:51:24",
+      "end_time": "2026-07-01T04:05:24",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2000_real_2000_syn_50.log"
+    },
+    {
+      "variant": "real_2000_syn_75",
+      "group": "runs_2000",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T00:55:39",
+      "end_time": "2026-07-01T04:13:10",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2000_real_2000_syn_75.log"
+    },
+    {
+      "variant": "real_2000_syn_100",
+      "group": "runs_2000",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T01:24:14",
+      "end_time": "2026-07-01T04:52:17",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2000_real_2000_syn_100.log"
+    },
+    {
+      "variant": "real_2723",
+      "group": "runs_2723",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T01:41:01",
+      "end_time": "2026-07-01T05:19:36",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2723_real_2723.log"
+    },
+    {
+      "variant": "real_2723_syn_25",
+      "group": "runs_2723",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T04:05:24",
+      "end_time": "2026-07-01T07:31:41",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2723_real_2723_syn_25.log"
+    },
+    {
+      "variant": "real_2723_syn_50",
+      "group": "runs_2723",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T04:13:10",
+      "end_time": "2026-07-01T07:55:45",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2723_real_2723_syn_50.log"
+    },
+    {
+      "variant": "real_2723_syn_75",
+      "group": "runs_2723",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T04:52:17",
+      "end_time": "2026-07-01T08:44:22",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2723_real_2723_syn_75.log"
+    },
+    {
+      "variant": "real_2723_syn_100",
+      "group": "runs_2723",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T05:19:36",
+      "end_time": "2026-07-01T09:08:55",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_2723_real_2723_syn_100.log"
+    },
+    {
+      "variant": "syn_500",
+      "group": "runs_syn",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T07:31:41",
+      "end_time": "2026-07-01T09:29:28",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_500.log"
+    },
+    {
+      "variant": "syn_1000",
+      "group": "runs_syn",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T07:55:45",
+      "end_time": "2026-07-01T10:01:17",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_1000.log"
+    },
+    {
+      "variant": "syn_2000",
+      "group": "runs_syn",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T08:44:22",
+      "end_time": "2026-07-01T10:53:24",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_2000.log"
+    },
+    {
+      "variant": "syn_2723",
+      "group": "runs_syn",
+      "gpu": 1,
+      "exit_code": 0,
+      "start_time": "2026-07-01T09:08:55",
+      "end_time": "2026-07-01T11:16:58",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_2723.log"
+    },
+    {
+      "variant": "syn_5446",
+      "group": "runs_syn",
+      "gpu": 0,
+      "exit_code": 0,
+      "start_time": "2026-07-01T09:29:28",
+      "end_time": "2026-07-01T12:06:38",
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_5446.log"
+    }
+  ]
+}

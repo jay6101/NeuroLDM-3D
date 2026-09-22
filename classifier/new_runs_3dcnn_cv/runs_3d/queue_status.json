@@ -1,0 +1,49 @@
+{
+  "updated_at": "2026-07-01T12:06:23",
+  "gpus": [
+    0,
+    1
+  ],
+  "jobs_per_gpu": 2,
+  "running": [
+    {
+      "variant": "syn_5446",
+      "group": "runs_syn",
+      "gpu": 0,
+      "pid": 2048728,
+      "log": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs/runs_syn_syn_5446.log",
+      "start_time": "2026-07-01T09:29:28"
+    }
+  ],
+  "queued": [],
+  "completed_count": 24,
+  "failed_count": 0,
+  "completed": [
+    "real_500_syn_50",
+    "real_500_syn_25",
+    "real_500",
+    "real_500_syn_75",
+    "real_500_syn_100",
+    "real_1000",
+    "real_1000_syn_25",
+    "real_1000_syn_50",
+    "real_1000_syn_100",
+    "real_1000_syn_75",
+    "real_2000",
+    "real_2000_syn_25",
+    "real_2000_syn_50",
+    "real_2000_syn_75",
+    "real_2000_syn_100",
+    "real_2723",
+    "real_2723_syn_25",
+    "real_2723_syn_50",
+    "real_2723_syn_75",
+    "real_2723_syn_100",
+    "syn_500",
+    "syn_1000",
+    "syn_2000",
+    "syn_2723"
+  ],
+  "failed": [],
+  "logs_dir": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/classifier/new_runs_3dcnn_cv/runs/logs"
+}

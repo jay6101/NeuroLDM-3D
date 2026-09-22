@@ -23,15 +23,23 @@ classifier/
 ├── vanilla_backprop.py          # Vanilla backpropagation saliency
 ├── SALIENCY_README.md           # Detailed saliency analysis documentation
 ├── saliency_requirements.txt    # Saliency-specific dependencies
-└── new_runs/                    # Training run outputs and checkpoints
+├── new_runs/                    # Original EfficientNetV2 hold-out runs
+├── new_runs_3dcnn_cv/           # 5-fold 3D CNN CV (revision)
+│   ├── run.py / aggregate_folds.py / plot_performance_curves.py
+│   └── runs_3d/                 # fold metrics + figures (no .pth / CSVs)
+└── delong_test/                 # Paired DeLong tests on pooled CV scores
+    ├── delong_cv.py / plot_delong.py
+    └── results_3dcnn_cv/
 ```
 
 ## Model Architecture
 
-**EfficientNetV2** (`model/efficientNetV2.py`): Binary classifier for HC vs TLE
+**EfficientNetV2** (`model/efficientNetV2.py`): Binary classifier for HC vs TLE (original pipeline)
 - Input: 112×115×112 MRI volumes (We crop the region from the coronal axis where there is no brain information)
-- Modified first conv for single-channel input
+- Slices stacked as channels; modified first conv for that input
 - Output: Binary classification score
+
+**3D CNN** (`new_runs_3dcnn_cv/models/cnn_ben_3d.py`): same HC vs TLE task, volumetric `[1, D, H, W]` input. Training recipe (Adam, ReduceLROnPlateau, balanced sampler, early stopping) is shared with the 2D option in that folder; `--model 3d|2d` only swaps the architecture.
 
 ## Usage
 
@@ -43,10 +51,14 @@ classifier/
 - Automatically mixes real + synthetic .pkl files
 - Balanced batch sampling for stable training
 
-**Training Scenarios** (see `new_runs/`):
+**Training Scenarios** (see `new_runs/` and `new_runs_3dcnn_cv/runs_3d/`):
 - `real_X`: Real only
-- `real_X_syn_Y`: Real + Y% synthetic
+- `real_X_syn_Y`: Real + Y% synthetic (Y is a percentage of the real count)
 - `syn_X`: Synthetic only
+
+**3D CNN 5-fold CV**: `python new_runs_3dcnn_cv/run.py --list` then `python new_runs_3dcnn_cv/run.py --device cuda:0`. Folds partition the ~481-sample val+test pool (`split_seed=7`). Aggregate with `python new_runs_3dcnn_cv/aggregate_folds.py`; plots with `python new_runs_3dcnn_cv/plot_performance_curves.py`.
+
+**DeLong tests** on the pooled out-of-fold scores: `python delong_test/delong_cv.py`. Tables and figures are in `delong_test/results_3dcnn_cv/`.
 
 ## Training Configuration
 
@@ -91,31 +103,21 @@ Edit paths in script for model checkpoint, parameters.json, and validation CSV.
 Training outputs are organized by experiment:
 
 ```
-new_runs/
+new_runs/                         # original EfficientNetV2 hold-out layout
+new_runs_3dcnn_cv/runs_3d/        # 3D CNN CV (same variant names)
 ├── runs_500/                     # Experiments with 500 real samples
 │   ├── real_500/                 # Real data only
-│   ├── real_500_syn_25/          # Real + 25% synthetic (25% corresponds to 25% of #real_scans)
-│   ├── real_500_syn_50/          # Real + 50% synthetic
-│   ├── real_500_syn_75/          # Real + 75% synthetic
-│   └── real_500_syn_100/         # Real + 100% synthetic
-├── runs_1000/                    # Experiments with 1000 real samples
-├── runs_2000/                    # Experiments with 2000 real samples
-├── runs_2723/                    # Experiments with 2723 real samples (full dataset)
-└── runs_syn/                     # Synthetic-only experiments
-    ├── syn_500/
-    ├── syn_1000/
-    ├── syn_2000/
-    ├── syn_2723/
-    └── syn_5446/                 # Double dataset size (synthetic)
+│   ├── real_500_syn_25/          # Real + 25% synthetic (25% of #real_scans)
+│   ├── real_500_syn_50/
+│   ├── real_500_syn_75/
+│   └── real_500_syn_100/
+├── runs_1000/ / runs_2000/ / runs_2723/
+└── runs_syn/                     # Synthetic-only (syn_500 … syn_5446)
 
-# Each experiment directory contains:
-├── dataset.py                    # Dataset script used
-├── efficientNetV2.py             # Model architecture used
-├── train.py                      # Training script used
-├── run.py                        # Orchestration script used
-├── utils.py                      # Utilities used
-├── parameters.json               # Hyperparameters
-└── all_folds_metrics.json        # Aggregated metrics across folds
+# Each 3D-CNN variant directory contains:
+├── parameters.json / run_summary.json
+├── all_folds_metrics.json        # fold-wise mean±std of test metrics
+└── fold_k/fold_metrics.json
 ```
 
 ## Integration with Pipeline

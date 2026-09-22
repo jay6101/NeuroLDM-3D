@@ -1,0 +1,45 @@
+{
+  "subject": "sub-004649",
+  "group": "TLE",
+  "diagnosis": "right",
+  "quality": "good",
+  "split": "held-out (val.csv U test.csv)",
+  "selection": {
+    "mode": "percentile",
+    "percentiles": [
+      5.0,
+      95.0
+    ],
+    "metric": "mse",
+    "cohort": "own group, held-out"
+  },
+  "in_test_csv": true,
+  "mse": 0.017848465591669083,
+  "lpips": 0.017123550176620483,
+  "lpips_norm11": 0.0167264640331268,
+  "mae": 0.0691025555133819,
+  "psnr_db": 33.32289123535156,
+  "rank_within_group": {
+    "n_in_group": 278,
+    "mse_percentile": 5.39568345323741,
+    "lpips_percentile": 3.9568345323741005
+  },
+  "volume": {
+    "shape": [
+      112,
+      136,
+      112
+    ],
+    "axes": "axis0 = L-R (sagittal), axis1 = P-A (coronal), axis2 = I-S (axial)",
+    "intensity": "per-volume z-scored, identical scale for real and reconstruction",
+    "display_window": [
+      -0.5113604068756104,
+      3.3809800434112507
+    ],
+    "error_display_window": [
+      0.0,
+      1.0
+    ]
+  },
+  "source_image": "/space/mcdonald-syn01/1/BIDS//enigma_conglom//derivatives//cat12_4/sub-004649/ses-01/anat/mwp1sub-004649_ses-01_T1w.nii"
+}

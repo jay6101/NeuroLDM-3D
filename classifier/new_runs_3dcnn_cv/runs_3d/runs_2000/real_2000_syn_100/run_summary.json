@@ -1,0 +1,138 @@
+{
+    "variant_name": "real_2000_syn_100",
+    "num_samples": 2000,
+    "num_synth_samples": 2000,
+    "n_folds": 5,
+    "folds_trained": 5,
+    "split_seed": 7,
+    "per_fold": [
+        {
+            "fold": 1,
+            "best_epoch": 33,
+            "test_metrics": {
+                "accuracy": 0.8144329896907216,
+                "auc_roc": 0.8898083623693379,
+                "auc_pr": 0.9243570675736653,
+                "ppv": 0.8166666666666667,
+                "sensitivity": 0.875,
+                "specificity": 0.7317073170731707,
+                "precision": 0.8166666666666667,
+                "recall": 0.875,
+                "f1_score": 0.8448275862068966,
+                "best_threshold": 0.8089582920074463,
+                "loss": 0.40586289648826307,
+                "threshold_used": 0.5
+            }
+        },
+        {
+            "fold": 2,
+            "best_epoch": 27,
+            "test_metrics": {
+                "accuracy": 0.75,
+                "auc_roc": 0.8459821428571429,
+                "auc_pr": 0.9032316259016031,
+                "ppv": 0.7857142857142857,
+                "sensitivity": 0.7857142857142857,
+                "specificity": 0.7,
+                "precision": 0.7857142857142857,
+                "recall": 0.7857142857142857,
+                "f1_score": 0.7857142857142857,
+                "best_threshold": 0.8915442228317261,
+                "loss": 0.5263014112909635,
+                "threshold_used": 0.5
+            }
+        },
+        {
+            "fold": 3,
+            "best_epoch": 36,
+            "test_metrics": {
+                "accuracy": 0.78125,
+                "auc_roc": 0.8558035714285714,
+                "auc_pr": 0.9193291000730917,
+                "ppv": 0.926829268292683,
+                "sensitivity": 0.6785714285714286,
+                "specificity": 0.925,
+                "precision": 0.926829268292683,
+                "recall": 0.6785714285714286,
+                "f1_score": 0.7835051546391752,
+                "best_threshold": 0.416332870721817,
+                "loss": 0.5447778962552547,
+                "threshold_used": 0.5
+            }
+        },
+        {
+            "fold": 4,
+            "best_epoch": 25,
+            "test_metrics": {
+                "accuracy": 0.7708333333333334,
+                "auc_roc": 0.8492239467849224,
+                "auc_pr": 0.9015229073317196,
+                "ppv": 0.8,
+                "sensitivity": 0.8,
+                "specificity": 0.7317073170731707,
+                "precision": 0.8,
+                "recall": 0.8,
+                "f1_score": 0.8,
+                "best_threshold": 0.9364004135131836,
+                "loss": 0.5544660227994124,
+                "threshold_used": 0.5
+            }
+        },
+        {
+            "fold": 5,
+            "best_epoch": 6,
+            "test_metrics": {
+                "accuracy": 0.75,
+                "auc_roc": 0.8026607538802659,
+                "auc_pr": 0.8646934925989737,
+                "ppv": 0.7719298245614035,
+                "sensitivity": 0.8,
+                "specificity": 0.6829268292682927,
+                "precision": 0.7719298245614035,
+                "recall": 0.8,
+                "f1_score": 0.7857142857142857,
+                "best_threshold": 0.5490173101425171,
+                "loss": 0.5301776925722758,
+                "threshold_used": 0.5
+            }
+        }
+    ],
+    "overall_results": {
+        "accuracy": {
+            "mean": 0.773303264604811,
+            "std": 0.023862060816506332
+        },
+        "auc_roc": {
+            "mean": 0.8486957554640482,
+            "std": 0.02781234094643975
+        },
+        "auc_pr": {
+            "mean": 0.9026268386958106,
+            "std": 0.02093653056417082
+        },
+        "ppv": {
+            "mean": 0.8202280090470078,
+            "std": 0.05533461069748778
+        },
+        "sensitivity": {
+            "mean": 0.7878571428571428,
+            "std": 0.06298687910013887
+        },
+        "specificity": {
+            "mean": 0.7542682926829267,
+            "std": 0.08740933945201984
+        },
+        "precision": {
+            "mean": 0.8202280090470078,
+            "std": 0.05533461069748778
+        },
+        "recall": {
+            "mean": 0.7878571428571428,
+            "std": 0.06298687910013887
+        },
+        "f1_score": {
+            "mean": 0.7999522624549286,
+            "std": 0.023193724494157214
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+  "conf_level": 0.95,
+  "groups": [
+    {
+      "group": "aggregated_n481",
+      "n_samples": 481,
+      "n_pos": 278,
+      "n_neg": 203,
+      "n_models": 25,
+      "models": [
+        "runs_1000/real_1000",
+        "runs_1000/real_1000_syn_100",
+        "runs_1000/real_1000_syn_25",
+        "runs_1000/real_1000_syn_50",
+        "runs_1000/real_1000_syn_75",
+        "runs_2000/real_2000",
+        "runs_2000/real_2000_syn_100",
+        "runs_2000/real_2000_syn_25",
+        "runs_2000/real_2000_syn_50",
+        "runs_2000/real_2000_syn_75",
+        "runs_2723/real_2723",
+        "runs_2723/real_2723_syn_100",
+        "runs_2723/real_2723_syn_25",
+        "runs_2723/real_2723_syn_50",
+        "runs_2723/real_2723_syn_75",
+        "runs_500/real_500",
+        "runs_500/real_500_syn_100",
+        "runs_500/real_500_syn_25",
+        "runs_500/real_500_syn_50",
+        "runs_500/real_500_syn_75",
+        "runs_syn/syn_1000",
+        "runs_syn/syn_2000",
+        "runs_syn/syn_2723",
+        "runs_syn/syn_500",
+        "runs_syn/syn_5446"
+      ],
+      "example_ids": [
+        "/space/mcdonald-syn01/1/BIDS//CAPES//derivatives//cat12/sub-EMOC0031/ses-01/anat/mwp1sub-EMOC0031_ses-01_T1w.nii",
+        "/space/mcdonald-syn01/1/BIDS//CAPES//derivatives//cat12/sub-EMOC0032/ses-01/anat/mwp1sub-EMOC0032_ses-01_T1w.nii",
+        "/space/mcdonald-syn01/1/BIDS//CAPES//derivatives//cat12/sub-EMOC0037/ses-01/anat/mwp1sub-EMOC0037_ses-01_T1w.nii"
+      ]
+    }
+  ]
+}

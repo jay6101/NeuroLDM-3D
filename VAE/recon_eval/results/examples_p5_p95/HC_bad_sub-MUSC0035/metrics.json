@@ -1,0 +1,45 @@
+{
+  "subject": "sub-MUSC0035",
+  "group": "HC",
+  "diagnosis": "HC",
+  "quality": "bad",
+  "split": "held-out (val.csv U test.csv)",
+  "selection": {
+    "mode": "percentile",
+    "percentiles": [
+      5.0,
+      95.0
+    ],
+    "metric": "mse",
+    "cohort": "own group, held-out"
+  },
+  "in_test_csv": true,
+  "mse": 0.023955216631293297,
+  "lpips": 0.020608576014637947,
+  "lpips_norm11": 0.0203163400292396,
+  "mae": 0.0757514461874961,
+  "psnr_db": 32.63996887207031,
+  "rank_within_group": {
+    "n_in_group": 203,
+    "mse_percentile": 95.07389162561576,
+    "lpips_percentile": 91.62561576354679
+  },
+  "volume": {
+    "shape": [
+      112,
+      136,
+      112
+    ],
+    "axes": "axis0 = L-R (sagittal), axis1 = P-A (coronal), axis2 = I-S (axial)",
+    "intensity": "per-volume z-scored, identical scale for real and reconstruction",
+    "display_window": [
+      -0.5069438219070435,
+      3.357265653610227
+    ],
+    "error_display_window": [
+      0.0,
+      1.0
+    ]
+  },
+  "source_image": "/space/mcdonald-syn01/1/BIDS//enigma_conglom//derivatives//cat12_3/sub-MUSC0035/ses-01/anat/mwp1sub-MUSC0035_ses-01_T1w.nii"
+}

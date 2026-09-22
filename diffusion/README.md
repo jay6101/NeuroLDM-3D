@@ -22,7 +22,12 @@ diffusion/
 ├── dataset.py                    # Dataset handling for latent codes
 ├── per_slice_fid_ignite.py       # Per-slice FID evaluation script
 ├── prepare_nii.ipynb             # Data preparation notebook
-└── viualize_latent.ipynb         # Latent space visualization notebook
+├── viualize_latent.ipynb         # Latent space visualization notebook
+└── nn_eval/                      # Nearest-neighbor memorization (revision)
+    ├── encode_real.py / generate_fake_latents.py / roundtrip.py
+    ├── nn_memorization.py        # d_real vs d_fake to nearest train latent
+    ├── filter_coincidence.py     # drop near-duplicate test/train pairs
+    └── results/                  # distances, plots, coincidence-filtered summary
 ```
 
 **Note**: Model checkpoints and latent data are typically stored during training in directories you specify (not included in the repo by default).
@@ -66,8 +71,9 @@ diffusion/
 
 ## Evaluation
 
-**FID Scores**: `per_slice_fid_ignite.py` - Computes per-slice FID across all axes
-**Classification**: Train classifier on synthetic data (see `../classifier/`)
+**FID Scores**: `per_slice_fid_ignite.py` - Computes per-slice FID across all axes  
+**Memorization** (`nn_eval/`): nearest-train MSE in VAE latent space for held-out real vs synthetic queries (Meehan et al. data-copying test). A left-shifted `d_fake` relative to `d_real` would indicate copying. `filter_coincidence.py --threshold 0.05` drops real-test samples that sit too close to the training set and rewrites the report. Results: `nn_eval/summary.json` and `nn_eval/results/excl_coincidence_0p05/`.  
+**Classification**: Train classifier on synthetic data (see `../classifier/`)  
 **Saliency**: Verify anatomically correct activations
 
 ## Pipeline Integration

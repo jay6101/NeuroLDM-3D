@@ -1,0 +1,45 @@
+{
+  "subject": "sub-NanjingHC0072",
+  "group": "HC",
+  "diagnosis": "HC",
+  "quality": "good",
+  "split": "held-out (val.csv U test.csv)",
+  "selection": {
+    "mode": "percentile",
+    "percentiles": [
+      5.0,
+      95.0
+    ],
+    "metric": "mse",
+    "cohort": "own group, held-out"
+  },
+  "in_test_csv": true,
+  "mse": 0.016947073861956596,
+  "lpips": 0.017481766641139984,
+  "lpips_norm11": 0.0166175607591867,
+  "mae": 0.0667294636368751,
+  "psnr_db": 33.648963928222656,
+  "rank_within_group": {
+    "n_in_group": 203,
+    "mse_percentile": 5.41871921182266,
+    "lpips_percentile": 18.7192118226601
+  },
+  "volume": {
+    "shape": [
+      112,
+      136,
+      112
+    ],
+    "axes": "axis0 = L-R (sagittal), axis1 = P-A (coronal), axis2 = I-S (axial)",
+    "intensity": "per-volume z-scored, identical scale for real and reconstruction",
+    "display_window": [
+      -0.5070859789848328,
+      3.4963129937648736
+    ],
+    "error_display_window": [
+      0.0,
+      1.0
+    ]
+  },
+  "source_image": "/space/mcdonald-syn01/1/BIDS//enigma_conglom//derivatives//cat12_2/sub-NanjingHC0072//anat/mwp1sub-NanjingHC0072_T1w.nii"
+}

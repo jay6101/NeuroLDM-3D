@@ -1,0 +1,15 @@
+{
+  "ldm_ckpt": "/space/mcdonald-syn01/1/projects/jsawant/Diffusion_paper/diffusion/checkpoints_2/dit3d/epoch_9999.pth",
+  "n": 303,
+  "label_counts": {
+    "0": 128,
+    "1": 175
+  },
+  "seed": 42,
+  "latent_shape": [
+    4,
+    28,
+    34,
+    28
+  ]
+}
